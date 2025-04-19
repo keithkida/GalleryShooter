@@ -1,0 +1,113 @@
+{
+    "Title": "Escape Room",
+    "Credits": "Created by Keith Kida (kjkida@ucsc.edu).",
+    "InitialLocation": "Mysterious Room",
+    "Locations": {
+        "Mysterious Room": {
+            "Body": "You find yourself in a dark room. You don't know how you got in or how long you have been here for but one this is certain.\n You have to escape this room. Look for items that can help.",
+            "Choices": [
+                { "Text": "Approach the Door", "Target": "Main Door" },
+                { "Text": "Check the Desk", "Target": "Desk" },
+                { "Text": "Inspect the Safe", "Target": "Safe" },
+                { "Text": "Examine the Cabinet", "Target": "Cabinet" }
+
+            ]
+        },
+        
+        "Desk": {
+            "Body": "You walk towards the desk and you find yourself a drawer with a loch and a hammer on top.",
+            "Choices": [
+                { "Text": "Take the Hammer", "Target": "Take Hammer" },
+                { "Text": "Try to open the drawer", 
+                "Target": "Unlocked Drawer", 
+                "ItemNeeded": "Drawer Key", 
+                "FailedTarget": "Locked Drawer" },
+                { "Text": "Go Back", "Target": "Mysterious Room" }
+            ]
+        },
+        "Take Hammer": {
+            "Body": "You now have a hammer. You don't know why its there but it might come in handy.",
+            "Choices": [
+                { "Text": "Go Back", "Target": "Mysterious Room" }
+            ]
+        },
+        "Unlocked Drawer": {
+            "Body": "After a few tries of turning the key, you have open the drawer. You found yourself a note with 4 numbers on it.",
+            "Choices": [
+                { "Text": "Go Back", "Target": "Mysterious Room" }              
+            ]
+        },
+        "Locked Drawer": {
+            "Body": "You pulled the drawer many times as hard as you can but the drawer won't open. Go find the key for the lock.",
+            "Choices": [
+                { "Text": "Go Back", "Target": "Desk" }                
+            ]
+        },
+
+        "Cabinet": {
+            "Body": "Through the glass you spot a key, but the doors are stuck shut.",
+            "Choices": [
+                { "Text": "'Open' the cabinet doors", 
+                "Target": "Broken Cabinet", 
+                "ItemNeeded": "Hammer", 
+                "FailedTarget": "Locked Cabinet" },
+                { "Text": "Go Back", "Target": "Mysterious Room" }           
+            ]
+        },
+        "Broken Cabinet": {
+            "Body": "You have a hammer and there is a glass door, it brought you to a solution that is very dangerous and messy. That's one way to open it.",
+            "Choices": [
+                { "Text": "Go Back", "Target": "Mysterious Room" }              
+            ]
+        },
+        "Locked Cabinet": {
+            "Body": "The cabinet is still stuck shut even with no lock on it. It must be jammed. Find another way to open it.",
+            "Choices": [
+                { "Text": "Go Back", "Target": "Cabinet" }                
+            ]
+        },
+
+        "Safe": {
+            "Body": "A very sturdy safe stands before you. It has a 4 digit key pad.",
+            "Choices": [
+                { "Text": "Open the safe", 
+                "Target": "Safe Opened", 
+                "ItemNeeded": "Combination", 
+                "FailedTarget": "Locked Safe" },
+                { "Text": "Go Back", "Target": "Mysterious Room" }
+            ]
+        },
+        "Safe Opened": {
+            "Body": "With the paper in hand, you punched in the combination and the safe pops open. Inside you found amaster key.",
+            "Choices": [
+                { "Text": "Go Back", "Target": "Mysterious Room" }               
+            ]
+        },        
+        "Locked Safe": {
+            "Body": "You tried putting in random numbers and nothing happens. It may be best to find its combination.",
+            "Choices": [
+                { "Text": "Go Back", "Target": "Safe" }                
+            ]
+        },
+
+        "Main Door": {
+            "Body": "The exit is locked shut and you can see light shining below the door. The one thing standing between you and freedom is this great door. ",
+            "Choices": [
+                { "Text": "Open the Door", 
+                "Target": "Escape", 
+                "ItemNeeded": "Master Key", 
+                "FailedTarget": "Locked Door" },
+                { "Text": "Go Back", "Target": "Mysterious Room" }
+            ]
+        },
+        "Locked Door": {
+            "Body": "You pull the door with all your might and with every pull you feel like your arms might rip off. Its no use, the best chance to excape is to look for the key.",
+            "Choices": [
+                { "Text": "Go Back", "Target": "Main Door" }                
+            ]
+        },
+        "Escape": {
+            "Body": "You inserted the key into the door, turned the key, hear a click, and the door creaks open. You're free! RUN INTO THE LIGHT!!!"
+        }
+    }
+}
