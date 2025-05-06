@@ -16,9 +16,8 @@ class GalleryShooter extends Phaser.Scene {
         this.my.sprite.stars = [];
 
         this.enemies = []; 
-        this.currentWaveSize = 4;
-        this.maxWaveSize = 8;
-
+        this.currentWaveSize = 3;
+        this.maxWaveSize = 7;
     }
 
     preload() {
@@ -37,9 +36,6 @@ class GalleryShooter extends Phaser.Scene {
     create() {
         let my = this.my;
 
-        const centerX = this.cameras.main.width / 2;
-        const centerY = this.cameras.main.height / 2;
-
         this.add.image(0, 0, 'background').setOrigin(0, 0).setDisplaySize(this.cameras.main.width, this.cameras.main.height);
 
         my.sprite.playerShip = this.add.sprite(this.shipX, this.shipY, "playerShip").setScale(0.5);
@@ -49,14 +45,14 @@ class GalleryShooter extends Phaser.Scene {
         this.lives = this.add.text(60, 25, "X " + this.playerHealth, {
             font: "24px Arial",
             fill: "#ffffff",
-            stroke: '#000000',           
+            stroke: '#000000',
             strokeThickness: 3 
         }).setOrigin(0, 0.5);
 
         this.score = this.add.text(650, 25, "Score: " + this.playerScore, {
             font: "24px Arial",
             fill: "#ffffff",
-            stroke: '#000000',           
+            stroke: '#000000',
             strokeThickness: 3 
         }).setOrigin(0, 0.5);
 
@@ -68,13 +64,12 @@ class GalleryShooter extends Phaser.Scene {
             this.my.sprite.bullet.push(bullet);
         }
 
-
         this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-        this.shipSpeed = 10;
-        this.laserSpeed = 25;;
+        this.shipSpeed = 15;
+        this.laserSpeed = 25;
         this.enemySpeed = 2;
     }
 
@@ -118,18 +113,32 @@ class GalleryShooter extends Phaser.Scene {
             for (let i = 0; i < this.currentWaveSize; i++) {
                 let x = Phaser.Math.Between(50, width - 50);
                 let enemyType = Phaser.Utils.Array.GetRandom(enemyTypes);
-                let enemy = this.add.sprite(x, -50, enemyType).setScale(0.5);
+
+                let path = new Phaser.Curves.Path(x, -50);
+                path.lineTo(x, this.cameras.main.height + 100);
+
+                let enemy = this.add.follower(path, x, -50, enemyType).setScale(0.5);
+
+                let followDuration;
+                if (enemyType === "verdaraShip") {
+                    followDuration = 20000 / (this.enemySpeed * 2); 
+                } else {
+                    followDuration = 20000 / this.enemySpeed;
+                }
+
+                enemy.startFollow({
+                    duration: followDuration,
+                    rotateToPath: false
+                });
+
                 enemy.type = enemyType;
+
                 if (enemy.type === "cryonShip") {
-                    enemy.health =  2
-                } else { 
+                    enemy.health = 2;
+                } else {
                     enemy.health = 1;
                 }
-                if (enemy.type === "verdaraShip") {
-                    enemy.speed = this.enemySpeed * 2;
-                } else {
-                    enemy.speed = this.enemySpeed;
-                }
+
                 this.enemies.push(enemy);
             }
 
@@ -140,7 +149,6 @@ class GalleryShooter extends Phaser.Scene {
 
         for (let i = this.enemies.length - 1; i >= 0; i--) {
             let enemy = this.enemies[i];
-            enemy.y += enemy.speed;
 
             if (enemy.y > this.cameras.main.height + enemy.displayHeight / 2) {
                 this.enemies.splice(i, 1);
@@ -158,12 +166,21 @@ class GalleryShooter extends Phaser.Scene {
                         if (enemy.type === "umbrosShip") {
                             for (let j = 0; j < 2; j++) {
                                 let offsetX;
-                                if(j === 0) {
+                                if (j === 0) {
                                     offsetX = 40;
-                                } else{ 
-                                    offsetX = -40;
+                                } else {
+                                    offsetX = -40
                                 }
-                                let smallEnemy = this.add.sprite(enemy.x + offsetX, enemy.y, "smallumbrosShip").setScale(0.4);
+
+                                let path = new Phaser.Curves.Path(enemy.x + offsetX, enemy.y);
+                                path.lineTo(enemy.x + offsetX, this.cameras.main.height + 100);
+
+                                let smallEnemy = this.add.follower(path, enemy.x + offsetX, enemy.y, "smallumbrosShip").setScale(0.4);
+                                smallEnemy.startFollow({
+                                    duration: 20000 / (this.enemySpeed + 1),
+                                    rotateToPath: false
+                                });
+
                                 smallEnemy.health = 1;
                                 smallEnemy.speed = this.enemySpeed + 1;
                                 this.enemies.push(smallEnemy);
@@ -184,7 +201,6 @@ class GalleryShooter extends Phaser.Scene {
                 }
             }
         }
-
 
         for (let i = this.my.sprite.stars.length - 1; i >= 0; i--) {
             let star = this.my.sprite.stars[i];
@@ -207,8 +223,6 @@ class GalleryShooter extends Phaser.Scene {
             this.playerScore = 0;
             this.currentWaveSize = 4;
         }
-
-        
     }
 
     collides(a, b) {
