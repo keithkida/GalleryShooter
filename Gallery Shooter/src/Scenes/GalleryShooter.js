@@ -63,7 +63,7 @@ class GalleryShooter extends Phaser.Scene {
         this.my.sprite.bullet = [];
 
         for (let i = 0; i < this.maxBullets; i++) {
-            let bullet = this.add.sprite(-10, -10, "laser").setScale(0.5);
+            let bullet = this.add.sprite(-10, -10, "laser");
             bullet.visible = false;
             this.my.sprite.bullet.push(bullet);
         }
@@ -124,12 +124,13 @@ class GalleryShooter extends Phaser.Scene {
                 let x = Phaser.Math.Between(50, width - 50);
                 let enemyType = Phaser.Utils.Array.GetRandom(enemyTypes);
                 let enemy = this.add.sprite(x, -50, enemyType).setScale(0.5);
-                if (enemyType === "cryonShip") {
+                enemy.type = enemyType;
+                if (enemy.type === "cryonShip") {
                     enemy.health =  2
                 } else { 
                     enemy.health = 1;
                 }
-                if (enemyType === "verdaraShip") {
+                if (enemy.type === "verdaraShip") {
                     enemy.speed = this.enemySpeed * 2;
                 } else {
                     enemy.speed = this.enemySpeed;
@@ -142,7 +143,6 @@ class GalleryShooter extends Phaser.Scene {
             }
         }
 
-        // Update and handle enemies
         for (let i = this.enemies.length - 1; i >= 0; i--) {
             let enemy = this.enemies[i];
             enemy.y += enemy.speed;
@@ -161,9 +161,14 @@ class GalleryShooter extends Phaser.Scene {
 
                     if (enemy.health <= 0) {
                         // Split logic for umbrosShip
-                        if (enemy.texture.key === "umbrosShip") {
+                        if (enemy.type === "umbrosShip") {
                             for (let j = 0; j < 2; j++) {
-                                let offsetX = (j === 0) ? -40 : 40;
+                                let offsetX;
+                                if(j === 0) {
+                                    offsetX = 40;
+                                } else{ 
+                                    offsetX = -40;
+                                }
                                 let smallEnemy = this.add.sprite(enemy.x + offsetX, enemy.y, "smallumbrosShip").setScale(0.4);
                                 smallEnemy.health = 1;
                                 smallEnemy.speed = this.enemySpeed + 1;
@@ -186,7 +191,7 @@ class GalleryShooter extends Phaser.Scene {
             }
         }
 
-        // Update stars
+
         for (let i = this.my.sprite.stars.length - 1; i >= 0; i--) {
             let star = this.my.sprite.stars[i];
             if (star.active) {
