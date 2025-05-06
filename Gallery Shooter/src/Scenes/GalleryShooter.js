@@ -69,7 +69,6 @@ class GalleryShooter extends Phaser.Scene {
         }
 
 
-        // Input keys
         this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -83,7 +82,6 @@ class GalleryShooter extends Phaser.Scene {
         let my = this.my;
         this.bulletCooldownCounter--;
 
-        // Player movement
         if (this.aKey.isDown && my.sprite.playerShip.x > my.sprite.playerShip.displayWidth / 2) {
             my.sprite.playerShip.x -= this.shipSpeed;
         }
@@ -92,7 +90,6 @@ class GalleryShooter extends Phaser.Scene {
             my.sprite.playerShip.x += this.shipSpeed;
         }
 
-        // Player shooting
         if (this.spaceKey.isDown && this.bulletCooldownCounter < 0) {
             this.sound.play("laserSound");
             for (let bullet of my.sprite.bullet) {
@@ -106,7 +103,6 @@ class GalleryShooter extends Phaser.Scene {
             }
         }
 
-        // Update bullets
         for (let bullet of my.sprite.bullet) {
             if (bullet.visible) {
                 bullet.y -= this.laserSpeed;
@@ -116,7 +112,6 @@ class GalleryShooter extends Phaser.Scene {
             }
         }
 
-        // Spawn new wave
         if (this.enemies.length === 0) {
             const width = this.cameras.main.width;
             const enemyTypes = ["cryonShip", "verdaraShip", "umbrosShip"];
