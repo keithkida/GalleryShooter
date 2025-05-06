@@ -43,14 +43,16 @@ class GalleryShooter extends Phaser.Scene {
         this.healthIcon = this.add.image(20, 25, "playerShip").setScale(0.3).setOrigin(0, 0.5);
 
         this.lives = this.add.text(60, 25, "X " + this.playerHealth, {
-            font: "24px Arial",
+            fontFamily: "Stencil Std, fantasy",
+            fontSize: "32px",
             fill: "#ffffff",
             stroke: '#000000',
             strokeThickness: 3 
         }).setOrigin(0, 0.5);
 
-        this.score = this.add.text(650, 25, "Score: " + this.playerScore, {
-            font: "24px Arial",
+        this.score = this.add.text(625, 25, "Score: " + this.playerScore, {
+            fontFamily: "Stencil Std, fantasy",
+            fontSize: "32px",
             fill: "#ffffff",
             stroke: '#000000',
             strokeThickness: 3 
@@ -70,7 +72,7 @@ class GalleryShooter extends Phaser.Scene {
 
         this.shipSpeed = 15;
         this.laserSpeed = 25;
-        this.enemySpeed = 2;
+        this.enemySpeed = 1;
     }
 
     update() {
@@ -121,9 +123,9 @@ class GalleryShooter extends Phaser.Scene {
 
                 let followDuration;
                 if (enemyType === "verdaraShip") {
-                    followDuration = 20000 / (this.enemySpeed * 2); 
+                    followDuration = 15000 / (this.enemySpeed * 2); 
                 } else {
-                    followDuration = 20000 / this.enemySpeed;
+                    followDuration = 15000 / this.enemySpeed;
                 }
 
                 enemy.startFollow({
@@ -177,7 +179,7 @@ class GalleryShooter extends Phaser.Scene {
 
                                 let smallEnemy = this.add.follower(path, enemy.x + offsetX, enemy.y, "smallumbrosShip").setScale(0.4);
                                 smallEnemy.startFollow({
-                                    duration: 20000 / (this.enemySpeed + 1),
+                                    duration: 15000 / (this.enemySpeed + 1),
                                     rotateToPath: false
                                 });
 
