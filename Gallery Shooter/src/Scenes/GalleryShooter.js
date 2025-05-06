@@ -160,7 +160,6 @@ class GalleryShooter extends Phaser.Scene {
                     enemy.health--;
 
                     if (enemy.health <= 0) {
-                        // Split logic for umbrosShip
                         if (enemy.type === "umbrosShip") {
                             for (let j = 0; j < 2; j++) {
                                 let offsetX;
