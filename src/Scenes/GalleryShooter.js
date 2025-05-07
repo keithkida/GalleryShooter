@@ -31,12 +31,16 @@ class GalleryShooter extends Phaser.Scene {
         this.load.image("smallumbrosShip", "enemyBlack5.png");        
         this.load.image("star", "star_gold.png");
         this.load.audio("laserSound", "laserLarge_001.ogg");
+        this.load.audio("attackSound", "laser9.ogg");
+        this.load.audio("bgMusic", "8bit-spaceshooter.mp3");
     }
 
     create() {
         let my = this.my;
 
         this.add.image(0, 0, 'background').setOrigin(0, 0).setDisplaySize(this.cameras.main.width, this.cameras.main.height);
+
+        this.sound.play('bgMusic', {loop: true, volume: 0.5});
 
         my.sprite.playerShip = this.add.sprite(this.shipX, this.shipY, "playerShip").setScale(0.5);
 
@@ -123,7 +127,7 @@ class GalleryShooter extends Phaser.Scene {
 
                 let followDuration;
                 if (enemyType === "verdaraShip") {
-                    followDuration = 15000 / (this.enemySpeed * 2); 
+                    followDuration = 15000 / (this.enemySpeed * 3); 
                 } else {
                     followDuration = 15000 / this.enemySpeed;
                 }
@@ -161,6 +165,7 @@ class GalleryShooter extends Phaser.Scene {
 
             for (let bullet of my.sprite.bullet) {
                 if (bullet.visible && this.collides(bullet, enemy)) {
+                    this.sound.play("attackSound");
                     bullet.visible = false;
                     enemy.health--;
 
