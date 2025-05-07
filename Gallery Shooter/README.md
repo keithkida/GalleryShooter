@@ -55,3 +55,5 @@ Now make it so the player avatar emits a sprite when the space bar is pressed.
 Create a key object in create() for space bar.
 In update, when the space bar is pressed, the player avatar emits a sprite from the avatar. This emitted sprite should travel upwards. This can be accomplished by subtracting from the sprite's y value during every call to update() while the emitted sprite is active.
 Note that the emitted sprite's x value should not change while it is in flight -- only the y value should change.
+
+THANK YOU
