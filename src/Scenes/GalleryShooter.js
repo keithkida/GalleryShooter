@@ -40,7 +40,8 @@ class GalleryShooter extends Phaser.Scene {
 
         this.add.image(0, 0, 'background').setOrigin(0, 0).setDisplaySize(this.cameras.main.width, this.cameras.main.height);
 
-        this.sound.play('bgMusic', {loop: true, volume: 0.5});
+        this.bgMusic = this.sound.add('bgMusic', { loop: true, volume: 0.5 });
+        this.bgMusic.play();
 
         my.sprite.playerShip = this.add.sprite(this.shipX, this.shipY, "playerShip").setScale(0.5);
 
@@ -225,6 +226,7 @@ class GalleryShooter extends Phaser.Scene {
         this.score.setText("Score: " + this.playerScore);
 
         if (this.playerHealth <= 0) {
+            this.bgMusic.stop();
             this.scene.start("GameOver");
             this.playerHealth = 3;
             this.playerScore = 0;
