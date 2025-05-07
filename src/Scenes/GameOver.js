@@ -7,6 +7,7 @@ class GameOver extends Phaser.Scene {
 
         this.load.setPath("./assets/");
         this.load.image("GameOverbackground", "darkPurple.png");
+        this.load.audio("gameOver", "mixkit-retro-arcade-game-over-470.wav");
 
     }
 
@@ -15,6 +16,8 @@ class GameOver extends Phaser.Scene {
 
         const centerX = this.cameras.main.width / 2;
         const centerY = this.cameras.main.height / 2;
+
+        this.sound.play("gameOver");
 
         this.add.image(0, 0, 'GameOverbackground').setOrigin(0, 0).setDisplaySize(this.cameras.main.width, this.cameras.main.height);
 
